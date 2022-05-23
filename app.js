@@ -13,6 +13,11 @@ const buttonsDiv = document.createElement("div");
 buttonsDiv.classList.add("buttons");
 document.body.appendChild(buttonsDiv);
 
+// Create a div to store the result of the game
+const resultDiv = document.createElement("div");
+resultDiv.classList.add("result");
+document.body.appendChild(resultDiv);
+
 // Create a paragraph to display info to the player
 let paragraph = document.createElement("p");
 paragraph.innerText = "Cliquez pour jouer !";
@@ -58,8 +63,28 @@ const checkWinner = (value) => {
 
 // Updates the paragraph text depending on the winner
 const displayResult = (text) => {
-    const finalText = `Joueur : ${SYMBOLS[player]} / Ordinateur : ${SYMBOLS[computer]} ! ${text}`;
-    paragraph.innerText = finalText;
+    paragraph.innerText = "";
+    gsap.to(buttonsDiv, {
+        autoAlpha: 0, onComplete: () => {
+
+            buttonsDiv.style.display = "none";
+
+            let img1 = document.createElement("img");
+            img1.src = `${player}.png`;
+            resultDiv.appendChild(img1);
+
+            let img2 = document.createElement("img");
+            img2.src = `${computer}.png`;
+            resultDiv.appendChild(img2);
+
+            gsap.to(img1, { autoAlpha: 1, x: 0 });
+            gsap.to(img2, { autoAlpha: 1, x: 0 });
+
+            paragraph.innerText = text;
+        }
+    })
+    // const finalText = `Joueur : ${SYMBOLS[player]} / Ordinateur : ${SYMBOLS[computer]} ! ${text}`;
+    // paragraph.innerText = finalText;
 }
 
 // Get buttons we just created
