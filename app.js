@@ -54,16 +54,25 @@ const checkWinner = (value) => {
     const playerChoice = parseInt(value);
     player = playerChoice;
     // Compare player and computer plays
-    if (computerChoice === playerChoice) return "Egalité";
-    if (computerChoice === 2 && playerChoice === 0) return "Gagné";
-    if (computerChoice === 0 && playerChoice === 2) return "Perdu";
-    if (computerChoice > playerChoice) return "Perdu";
-    return "Gagné";
+    if (computerChoice === playerChoice) return "Egalité !";
+    if (computerChoice === 2 && playerChoice === 0) return "Gagné !";
+    if (computerChoice === 0 && playerChoice === 2) return "Perdu !";
+    if (computerChoice > playerChoice) return "Perdu !";
+    return "Gagné !";
 }
 
 // Updates the paragraph text depending on the winner
 const displayResult = (text) => {
     paragraph.innerText = "";
+
+    resultDiv.style.display = "flex";
+    var child = resultDiv.lastElementChild;
+    while (child) {
+        resultDiv.removeChild(child);
+        child = resultDiv.lastElementChild;
+    }
+
+
     gsap.to(buttonsDiv, {
         autoAlpha: 0, onComplete: () => {
 
@@ -81,10 +90,26 @@ const displayResult = (text) => {
             gsap.to(img2, { autoAlpha: 1, x: 0 });
 
             paragraph.innerText = text;
+
+            // create a button
+            let btn = document.createElement("button");
+            // set his text, name, value and image
+            btn.innerHTML = "Replay";
+            btn.classList.add("replay");
+            // add to the DOM
+            document.body.appendChild(btn);
+
+            btn.addEventListener("click", () => {
+                resultDiv.style.display = "none";
+                buttonsDiv.style.display = "flex";
+                gsap.to(buttonsDiv, { autoAlpha: 1 });
+                btn.remove();
+                paragraph.innerText = "Cliquez pour jouer !";
+            });
+
         }
     })
-    // const finalText = `Joueur : ${SYMBOLS[player]} / Ordinateur : ${SYMBOLS[computer]} ! ${text}`;
-    // paragraph.innerText = finalText;
+
 }
 
 // Get buttons we just created
