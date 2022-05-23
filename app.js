@@ -66,18 +66,23 @@ const displayResult = (text) => {
     paragraph.innerText = "";
 
     resultDiv.style.display = "flex";
+
+    // Delete all childs nodes from resultDiv
     var child = resultDiv.lastElementChild;
     while (child) {
         resultDiv.removeChild(child);
         child = resultDiv.lastElementChild;
     }
 
-
+    // Hide player buttons div
     gsap.to(buttonsDiv, {
         autoAlpha: 0, onComplete: () => {
 
+            // When the animation is done
+            // Change div display to none
             buttonsDiv.style.display = "none";
 
+            // Create 2 images containing player and computer moves
             let img1 = document.createElement("img");
             img1.src = `${player}.png`;
             resultDiv.appendChild(img1);
@@ -86,9 +91,11 @@ const displayResult = (text) => {
             img2.src = `${computer}.png`;
             resultDiv.appendChild(img2);
 
+            // Animate in player and computer moves
             gsap.to(img1, { autoAlpha: 1, x: 0 });
             gsap.to(img2, { autoAlpha: 1, x: 0 });
 
+            // Update paragraph text to display current battle result
             paragraph.innerText = text;
 
             // create a button
@@ -99,10 +106,13 @@ const displayResult = (text) => {
             // add to the DOM
             document.body.appendChild(btn);
 
+            // When user clicks on the button
             btn.addEventListener("click", () => {
+                // Hide result and show player buttons
                 resultDiv.style.display = "none";
                 buttonsDiv.style.display = "flex";
                 gsap.to(buttonsDiv, { autoAlpha: 1 });
+                // Hide replay button and update the paragraph text
                 btn.remove();
                 paragraph.innerText = "Cliquez pour jouer !";
             });

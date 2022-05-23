@@ -18,8 +18,10 @@ body {
 }
 
 .buttons button {
-    width: 200px;
-    height: 200px;
+    /* width: 200px;
+    height: 200px; */
+    width: 33%;
+    aspect-ratio: 1;
     border: none;
     background-color: #473985;
     cursor: pointer;
@@ -81,11 +83,15 @@ p {
 .result {
     display: flex;
     gap: 2rem;
+    justify-content: center;
+    width: min(600px, 90%);
 }
 
 .result img {
-    width: 200px;
-    height: 200px;
+    /* width: 200px;
+    height: 200px; */
+    width: 33%;
+    aspect-ratio: 1;
     border-radius: 50%;
     box-shadow: 0 25px 50px rgba(8, 21, 66, .06);
     overflow: hidden;
@@ -107,7 +113,7 @@ p {
     background-color: #5799d2;
     padding: 0.5rem 1rem;
     cursor: pointer;
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,.1);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
     border-radius: 4px;
     border: none;
     font-size: 1rem;
