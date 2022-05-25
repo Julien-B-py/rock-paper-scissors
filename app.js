@@ -151,9 +151,19 @@ const incrementScore = (text) => {
 
 
 const createScoreBoard = () => {
+    // Create a <div class="score">
     let score = document.createElement("div");
     score.classList.add("score");
-    score.innerHTML = `<div><span>${scores.player}W</span> - ${scores.draw}D - <span>${scores.computer}L</span></div>`;
+    let scoreInner = document.createElement("div");
+    let scoreSpan1 = document.createElement("span");
+    scoreSpan1.textContent = `${scores.player}W`;
+    let centerText = document.createTextNode(` - ${scores.draw}D - `);
+    let scoreSpan2 = document.createElement("span");
+    scoreSpan2.textContent = `${scores.computer}L`;
+    scoreInner.appendChild(scoreSpan1);
+    scoreInner.appendChild(centerText);
+    scoreInner.appendChild(scoreSpan2);
+    score.appendChild(scoreInner);
 
     let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("width", "100");
@@ -168,7 +178,7 @@ const createScoreBoard = () => {
     score.appendChild(svg);
     document.body.appendChild(score);
 
-    var chart = document.querySelector("circle");
+    let chart = document.querySelector("circle");
     chart.style.strokeDasharray = `${scores.graph}, 158`;
 
     setTimeout(() => {
