@@ -7,6 +7,10 @@ const SYMBOLS = [
 // Variables to store current plays
 var player = 0;
 var computer = 0;
+// Variables to store score
+var scores = { player: 0, computer: 0, draw: 0, graph: 0 };
+
+
 
 // Create a div to store all buttons
 const buttonsDiv = document.createElement("div");
@@ -20,7 +24,7 @@ document.body.appendChild(resultDiv);
 
 // Create a paragraph to display info to the player
 let paragraph = document.createElement("p");
-paragraph.innerText = "Cliquez pour jouer !";
+paragraph.innerText = "Click to play !";
 document.body.appendChild(paragraph);
 
 const createButton = (text, index) => {
@@ -54,15 +58,20 @@ const checkWinner = (value) => {
     const playerChoice = parseInt(value);
     player = playerChoice;
     // Compare player and computer plays
-    if (computerChoice === playerChoice) return "Egalité !";
-    if (computerChoice === 2 && playerChoice === 0) return "Gagné !";
-    if (computerChoice === 0 && playerChoice === 2) return "Perdu !";
-    if (computerChoice > playerChoice) return "Perdu !";
-    return "Gagné !";
+    if (computerChoice === playerChoice) return "Draw !";
+    if (computerChoice === 2 && playerChoice === 0) return "Win !";
+    if (computerChoice === 0 && playerChoice === 2) return "Loss !";
+    if (computerChoice > playerChoice) return "Loss !";
+    return "Win !";
 }
 
 // Updates the paragraph text depending on the winner
 const displayResult = (text) => {
+
+    if (document.querySelector(".score")) {
+        document.querySelector(".score").remove();
+    }
+
     paragraph.innerText = "";
 
     resultDiv.style.display = "flex";
@@ -98,10 +107,14 @@ const displayResult = (text) => {
             // Update paragraph text to display current battle result
             paragraph.innerText = text;
 
+
+            // Score
+            createScoreBoard();
+
             // create a button
             let btn = document.createElement("button");
             // set his text, name, value and image
-            btn.innerHTML = "Replay";
+            btn.innerHTML = '<i class="fa-solid fa-arrow-rotate-right"></i>';
             btn.classList.add("replay");
             // add to the DOM
             document.body.appendChild(btn);
@@ -114,7 +127,7 @@ const displayResult = (text) => {
                 gsap.to(buttonsDiv, { autoAlpha: 1 });
                 // Hide replay button and update the paragraph text
                 btn.remove();
-                paragraph.innerText = "Cliquez pour jouer !";
+                paragraph.innerText = "Click to play !";
             });
 
         }
@@ -122,10 +135,55 @@ const displayResult = (text) => {
 
 }
 
+const incrementScore = (text) => {
+    switch (text) {
+        case 'Loss !':
+            scores.computer += 1;
+            console.log(scores.computer);
+            break;
+        case 'Win !':
+            scores.player += 1;
+            break;
+        default:
+            scores.draw += 1;
+    }
+}
+
+
+const createScoreBoard = () => {
+    let score = document.createElement("div");
+    score.classList.add("score");
+    score.innerHTML = `<div><span>${scores.player}W</span> - ${scores.draw}D - <span>${scores.computer}L</span></div>`;
+
+    let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", "100");
+    svg.setAttribute("height", "100");
+    svg.classList.add("chart");
+    let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("r", "25");
+    circle.setAttribute("cx", "50");
+    circle.setAttribute("cy", "50");
+    circle.classList.add("pie");
+    svg.appendChild(circle);
+    score.appendChild(svg);
+    document.body.appendChild(score);
+
+    var chart = document.querySelector("circle");
+    chart.style.strokeDasharray = `${scores.graph}, 158`;
+
+    setTimeout(() => {
+        const total = scores.player + scores.computer;
+        const ratio = scores.player / total;
+        scores.graph = ratio * 158;
+        chart.style.strokeDasharray = `${scores.graph}, 158`;
+    }, 200);
+}
+
 // Get buttons we just created
 const buttons = document.querySelectorAll('button');
 // Add a click event listener to each one of them
 buttons.forEach(button => button.addEventListener("click", (e) => {
     const result = checkWinner(e.currentTarget.value);
+    incrementScore(result);
     displayResult(result);
 }))

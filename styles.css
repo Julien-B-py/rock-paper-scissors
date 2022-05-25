@@ -17,6 +17,26 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+.score {
+    background-color: #fffdfd;
+    padding: 1rem;
+    box-shadow: 0 25px 50px rgba(8, 21, 66, .06);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.score span:first-child {
+    color: #32ae6f;
+}
+
+.score span:last-child {
+    color: #f02d1a;
+}
+
 .buttons button {
     /* width: 200px;
     height: 200px; */
@@ -69,7 +89,7 @@ body {
 p {
     color: rgb(2, 4, 3);
     font-weight: 500;
-    font-size: 1.125rem;
+    font-size: 1.5rem;
 }
 
 .buttons {
@@ -110,12 +130,38 @@ p {
 
 .replay {
     color: #fff;
-    background-color: #5799d2;
-    padding: 0.5rem 1rem;
+    background-color: #686ec9;
+    padding: 2rem;
     cursor: pointer;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .1);
-    border-radius: 4px;
+    border-radius: 50%;
     border: none;
-    font-size: 1rem;
+    font-size: 2rem;
     font-family: inherit;
+    transition: all ease .3s;
+}
+
+.replay:hover {
+    background-color: #5e63b5;
+}
+
+
+.replay:hover>* {
+    transform: rotate(360deg);
+    transition: all ease 1s;
+}
+
+
+svg {
+    background: #f02d1a;
+    border-radius: 50%;
+    transform: rotate(-90deg);
+}
+
+circle {
+    fill: #f02d1a;
+    stroke: #32ae6f;
+    stroke-width: 50;
+    stroke-dasharray: 0 158;
+    transition: stroke-dasharray .3s ease;
 }
