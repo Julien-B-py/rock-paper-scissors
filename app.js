@@ -1,7 +1,7 @@
 const SYMBOLS = [
-    "Pierre",
-    "Feuille",
-    "Ciseaux"
+    "Rock",
+    "Paper",
+    "Scissors"
 ];
 
 // Variables to store current plays
@@ -9,8 +9,6 @@ var player = 0;
 var computer = 0;
 // Variables to store score
 var scores = { player: 0, computer: 0, draw: 0, graph: 0 };
-
-
 
 // Create a div to store all buttons
 const buttonsDiv = document.createElement("div");
@@ -23,7 +21,7 @@ resultDiv.classList.add("result");
 document.body.appendChild(resultDiv);
 
 // Create a paragraph to display info to the player
-let paragraph = document.createElement("p");
+const paragraph = document.createElement("p");
 paragraph.innerText = "Click to play !";
 document.body.appendChild(paragraph);
 
@@ -34,11 +32,10 @@ const createButton = (text, index) => {
     btn.innerHTML = text;
     btn.name = `btn${text}`;
     btn.value = index;
-    btn.innerHTML = `<img src="${index}.png" />`;
+    btn.innerHTML = `<img src="assets/images/${index}.png" alt="${SYMBOLS[index]}" />`;
     // add to the DOM
     buttonsDiv.appendChild(btn);
 }
-
 
 // Create as many button as we need
 SYMBOLS.forEach(createButton);
@@ -93,11 +90,11 @@ const displayResult = (text) => {
 
             // Create 2 images containing player and computer moves
             let img1 = document.createElement("img");
-            img1.src = `${player}.png`;
+            img1.src = `assets/images/${player}.png`;
             resultDiv.appendChild(img1);
 
             let img2 = document.createElement("img");
-            img2.src = `${computer}.png`;
+            img2.src = `assets/images/${computer}.png`;
             resultDiv.appendChild(img2);
 
             // Animate in player and computer moves
@@ -139,7 +136,6 @@ const incrementScore = (text) => {
     switch (text) {
         case 'Loss !':
             scores.computer += 1;
-            console.log(scores.computer);
             break;
         case 'Win !':
             scores.player += 1;
@@ -149,16 +145,17 @@ const incrementScore = (text) => {
     }
 }
 
-
 const createScoreBoard = () => {
     // Create a <div class="score">
     let score = document.createElement("div");
     score.classList.add("score");
     let scoreInner = document.createElement("div");
     let scoreSpan1 = document.createElement("span");
+    scoreSpan1.classList.add('score__text--green')
     scoreSpan1.textContent = `${scores.player}W`;
     let centerText = document.createTextNode(` - ${scores.draw}D - `);
     let scoreSpan2 = document.createElement("span");
+    scoreSpan2.classList.add('score__text--red')
     scoreSpan2.textContent = `${scores.computer}L`;
     scoreInner.appendChild(scoreSpan1);
     scoreInner.appendChild(centerText);
@@ -178,12 +175,12 @@ const createScoreBoard = () => {
     score.appendChild(svg);
     document.body.appendChild(score);
 
-    let chart = document.querySelector("circle");
+    const chart = document.querySelector("circle");
     chart.style.strokeDasharray = `${scores.graph}, 158`;
 
     setTimeout(() => {
         const total = scores.player + scores.computer;
-        const ratio = scores.player / total;
+        const ratio = total === 0 ? 0 : scores.player / total;
         scores.graph = ratio * 158;
         chart.style.strokeDasharray = `${scores.graph}, 158`;
     }, 200);
